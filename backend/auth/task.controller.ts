@@ -19,17 +19,17 @@ export class TaskController {
   }
 
   @Post()
-  async createTask(@Request() req, @Body() body: CreateTaskDto) {
+  async createTask(@Request() req: any, @Body() body: CreateTaskDto) {
     return this.taskService.createTask(req.user.userId, body);
   }
 
   @Put(':id')
-  async updateTask(@Request() req, @Param('id') id: string, @Body() body: UpdateTaskDto) {
+  async updateTask(@Request() req: any, @Param('id') id: string, @Body() body: UpdateTaskDto) {
     return this.taskService.updateTask(req.user.userId, id, body);
   }
 
   @Delete(':id')
-  async deleteTask(@Request() req, @Param('id') id: string) {
+  async deleteTask(@Request() req: any, @Param('id') id: string) {
     return this.taskService.deleteTask(req.user.userId, id);
   }
 }

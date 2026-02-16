@@ -1,11 +1,11 @@
 {
-    "name": "remotask_frontend",
-    "short_name": "remotask_frontend",
+    "name": "CANARY",
+    "short_name": "CANARY",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "A fair remote micro-jobs platform",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

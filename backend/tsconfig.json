@@ -14,8 +14,11 @@
     "strict": true,
     "skipLibCheck": true
   },
+  "include": ["src/**/*", "auth/**/*", "prisma/**/*"],
   "exclude": [
     "node_modules",
-    "dist"
+    "dist",
+    "**/node_modules",
+    "**/*.spec.ts"
   ]
 }

@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'auth_manager.dart';
 import 'screens/home_screen.dart';
-import 'screens/dashboard_screen.dart';
 import 'screens/projects_screen.dart';
 import 'screens/chats_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/login_screen.dart';
 import 'widgets/account_dialog.dart';
+import 'theme/app_theme.dart';
+import 'services/push_notification_service.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await PushNotificationService.initialize();
+  // Optionally: initialize real-time service globally if needed
   runApp(
     ChangeNotifierProvider(
       create: (_) => AuthManager()..loadToken(),
@@ -18,15 +23,35 @@ void main() {
   );
 }
 
-class RemotaskApp extends StatelessWidget {
+class RemotaskApp extends StatefulWidget {
+  @override
+  State<RemotaskApp> createState() => _RemotaskAppState();
+}
+
+class _RemotaskAppState extends State<RemotaskApp> {
+  Locale? _locale;
+
+  void setLocale(Locale locale) {
+    setState(() => _locale = locale);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'FreelanceHub',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        fontFamily: 'Inter',
-      ),
+      title: 'CANARY',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.lightTheme,
+      locale: _locale,
+      supportedLocales: const [
+        Locale('en'),
+        Locale('sw'),
+        Locale('fr'),
+      ],
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       home: Consumer<AuthManager>(
         builder: (context, auth, _) {
           if (!auth.isLoggedIn) {
@@ -34,7 +59,7 @@ class RemotaskApp extends StatelessWidget {
               onLoginSuccess: (token) => auth.saveToken(token),
             );
           }
-          return MainNavigation();
+          return MainNavigation(onLocaleChanged: setLocale);
         },
       ),
     );
@@ -42,6 +67,8 @@ class RemotaskApp extends StatelessWidget {
 }
 
 class MainNavigation extends StatefulWidget {
+  final void Function(Locale)? onLocaleChanged;
+  const MainNavigation({Key? key, this.onLocaleChanged}) : super(key: key);
   @override
   _MainNavigationState createState() => _MainNavigationState();
 }
@@ -78,6 +105,20 @@ class _MainNavigationState extends State<MainNavigation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Remotask'),
+        actions: [
+          PopupMenuButton<Locale>(
+            icon: const Icon(Icons.language),
+            onSelected: (locale) => widget.onLocaleChanged?.call(locale),
+            itemBuilder: (context) => [
+              const PopupMenuItem(value: Locale('en'), child: Text('English')),
+              const PopupMenuItem(value: Locale('sw'), child: Text('Swahili')),
+              const PopupMenuItem(value: Locale('fr'), child: Text('French')),
+            ],
+          ),
+        ],
+      ),
       body: Stack(
         children: [
           _screens[_selectedIndex],

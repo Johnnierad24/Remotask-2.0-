@@ -2,12 +2,12 @@ import { IsString, IsOptional } from 'class-validator';
 
 export class CreateSubmissionDto {
   @IsString()
-  response: string;
+  response!: string;
 }
 
 export class ReviewSubmissionDto {
   @IsString()
-  status: string;
+  status!: string;
 
   @IsOptional()
   @IsString()

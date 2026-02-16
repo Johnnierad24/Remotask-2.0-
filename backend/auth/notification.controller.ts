@@ -9,12 +9,12 @@ export class NotificationController {
   constructor(private readonly notificationService: NotificationService) {}
 
   @Get()
-  async getMyNotifications(@Request() req) {
+  async getMyNotifications(@Request() req: any) {
     return this.notificationService.getUserNotifications(req.user.userId);
   }
 
   @Post()
-  async createNotification(@Request() req, @Body() body: CreateNotificationDto) {
+  async createNotification(@Request() req: any, @Body() body: CreateNotificationDto) {
     const { title, message } = body;
     return this.notificationService.createNotification(req.user.userId, title, message);
   }

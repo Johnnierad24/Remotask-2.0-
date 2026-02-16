@@ -38,5 +38,5 @@ export class AdminUpdateTaskDto {
 
 export class AdminRejectPayoutDto {
   @IsString()
-  rejection_reason: string;
+  rejection_reason!: string;
 }

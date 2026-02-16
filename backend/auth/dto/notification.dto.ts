@@ -2,8 +2,8 @@ import { IsString } from 'class-validator';
 
 export class CreateNotificationDto {
   @IsString()
-  title: string;
+  title!: string;
 
   @IsString()
-  message: string;
+  message!: string;
 }

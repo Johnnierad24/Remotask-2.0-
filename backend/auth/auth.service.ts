@@ -10,18 +10,18 @@ export class AuthService {
 	constructor(private prisma: PrismaService, private jwtService: JwtService) {}
 
 	async register(registerDto: RegisterDto) {
-		const { email, password } = registerDto;
+		const { email, password, full_name, user_type } = registerDto;
 		const existingUser = await this.prisma.user.findUnique({ where: { email } });
 		if (existingUser) {
 			throw new BadRequestException('Email already in use');
 		}
 		const hashedPassword = await bcrypt.hash(password, 10);
-		// Default role can be 'USER' or 'WORKER' as needed
 		const user = await this.prisma.user.create({
 			data: {
+				full_name,
 				email,
 				password_hash: hashedPassword,
-				role: 'USER',
+				role: user_type.toUpperCase(),
 			},
 		});
 		const payload = { sub: user.id, email: user.email, role: user.role };
@@ -39,5 +39,4 @@ export class AuthService {
 		const token = this.jwtService.sign(payload);
 		return { message: 'Login successful', token, user: { id: user.id, email: user.email, role: user.role } };
 	}
-}
 }

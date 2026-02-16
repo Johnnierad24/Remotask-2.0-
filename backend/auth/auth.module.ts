@@ -11,6 +11,7 @@ import { WalletService } from './wallet.service';
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { PrismaService } from '../prisma/prisma.service';
@@ -23,13 +24,19 @@ import { TaskController } from './task.controller';
 import { TaskService } from './task.service';
 import { SubmissionController } from './submission.controller';
 import { SubmissionService } from './submission.service';
+import { StorageModule } from '../src/storage/storage.module';
 
 @Module({
   imports: [
     PassportModule,
-    JwtModule.register({
-      secret: 'your_jwt_secret', // Replace with env variable in production
-      signOptions: { expiresIn: '1d' },
+    StorageModule,
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_SECRET'),
+        signOptions: { expiresIn: configService.get<string>('JWT_EXPIRATION', '7d') },
+      }),
+      inject: [ConfigService],
     }),
   ],
   providers: [AuthService, PrismaService, JwtStrategy, WorkerProfileService, ClientProfileService, TaskService, SubmissionService, WalletService, AdminUserService, AdminTaskService, AdminPayoutService, NotificationService],

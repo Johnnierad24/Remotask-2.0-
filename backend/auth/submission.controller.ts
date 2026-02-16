@@ -14,12 +14,12 @@ export class SubmissionController {
   }
 
   @Post(':taskId')
-  async submitTask(@Request() req, @Param('taskId') taskId: string, @Body() body: CreateSubmissionDto) {
+  async submitTask(@Request() req: any, @Param('taskId') taskId: string, @Body() body: CreateSubmissionDto) {
     return this.submissionService.submitTask(req.user.userId, taskId, body);
   }
 
   @Put(':id/review')
-  async reviewSubmission(@Request() req, @Param('id') id: string, @Body() body: ReviewSubmissionDto) {
+  async reviewSubmission(@Request() req: any, @Param('id') id: string, @Body() body: ReviewSubmissionDto) {
     return this.submissionService.reviewSubmission(req.user.userId, id, body);
   }
 }

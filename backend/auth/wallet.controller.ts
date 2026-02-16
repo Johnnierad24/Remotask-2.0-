@@ -9,12 +9,12 @@ export class WalletController {
   constructor(private readonly walletService: WalletService) {}
 
   @Get()
-  async getWallet(@Request() req) {
+  async getWallet(@Request() req: any) {
     return this.walletService.getWallet(req.user.userId);
   }
 
   @Post('withdraw')
-  async requestWithdrawal(@Request() req, @Body() body: WalletWithdrawDto) {
+  async requestWithdrawal(@Request() req: any, @Body() body: WalletWithdrawDto) {
     const { amount, payment_method } = body;
     return this.walletService.requestWithdrawal(req.user.userId, amount, payment_method);
   }

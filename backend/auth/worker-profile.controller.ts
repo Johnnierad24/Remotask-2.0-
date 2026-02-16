@@ -9,22 +9,22 @@ export class WorkerProfileController {
   constructor(private readonly workerProfileService: WorkerProfileService) {}
 
   @Get('me')
-  async getMyProfile(@Request() req) {
+  async getMyProfile(@Request() req: any) {
     return this.workerProfileService.getProfile(req.user.userId);
   }
 
   @Post()
-  async createProfile(@Request() req, @Body() body: CreateWorkerProfileDto) {
+  async createProfile(@Request() req: any, @Body() body: CreateWorkerProfileDto) {
     return this.workerProfileService.createProfile(req.user.userId, body);
   }
 
   @Put()
-  async updateProfile(@Request() req, @Body() body: UpdateWorkerProfileDto) {
+  async updateProfile(@Request() req: any, @Body() body: UpdateWorkerProfileDto) {
     return this.workerProfileService.updateProfile(req.user.userId, body);
   }
 
   @Delete()
-  async deleteProfile(@Request() req) {
+  async deleteProfile(@Request() req: any) {
     return this.workerProfileService.deleteProfile(req.user.userId);
   }
 }

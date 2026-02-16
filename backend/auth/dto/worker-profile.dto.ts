@@ -3,11 +3,11 @@ import { IsString, IsArray, IsOptional, IsInt, Min, Max, IsNumber } from 'class-
 export class CreateWorkerProfileDto {
   @IsArray()
   @IsString({ each: true })
-  skills: string[];
+  skills!: string[];
 
   @IsInt()
   @Min(1)
-  level: number;
+  level!: number;
 
   @IsOptional()
   @IsNumber()
@@ -15,7 +15,7 @@ export class CreateWorkerProfileDto {
 
   @IsInt()
   @Min(0)
-  completed_tasks: number;
+  completed_tasks!: number;
 }
 
 export class UpdateWorkerProfileDto {

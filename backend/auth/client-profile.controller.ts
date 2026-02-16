@@ -9,22 +9,22 @@ export class ClientProfileController {
   constructor(private readonly clientProfileService: ClientProfileService) {}
 
   @Get('me')
-  async getMyProfile(@Request() req) {
+  async getMyProfile(@Request() req: any) {
     return this.clientProfileService.getProfile(req.user.userId);
   }
 
   @Post()
-  async createProfile(@Request() req, @Body() body: CreateClientProfileDto) {
+  async createProfile(@Request() req: any, @Body() body: CreateClientProfileDto) {
     return this.clientProfileService.createProfile(req.user.userId, body);
   }
 
   @Put()
-  async updateProfile(@Request() req, @Body() body: UpdateClientProfileDto) {
+  async updateProfile(@Request() req: any, @Body() body: UpdateClientProfileDto) {
     return this.clientProfileService.updateProfile(req.user.userId, body);
   }
 
   @Delete()
-  async deleteProfile(@Request() req) {
+  async deleteProfile(@Request() req: any) {
     return this.clientProfileService.deleteProfile(req.user.userId);
   }
 }

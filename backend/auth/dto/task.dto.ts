@@ -2,20 +2,20 @@ import { IsString, IsNumber, IsInt, Min, IsOptional } from 'class-validator';
 
 export class CreateTaskDto {
   @IsString()
-  title: string;
+  title!: string;
 
   @IsString()
-  task_type: string;
+  task_type!: string;
 
   @IsString()
-  instructions: string;
+  instructions!: string;
 
   @IsNumber()
-  pay_per_task: number;
+  pay_per_task!: number;
 
   @IsInt()
   @Min(1)
-  required_submissions: number;
+  required_submissions!: number;
 
   @IsOptional()
   @IsString()
